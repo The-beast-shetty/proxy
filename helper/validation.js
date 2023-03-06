@@ -16,13 +16,4 @@ function validateDecyptedData(decryptedData) {
   return true;
 }
 
-function validateUrl(url, ipAddress) {
-  const newUrl = new URL(url);
-
-  if (newUrl.hostname === "localhost" || newUrl.hostname === "127.0.0.1") {
-    url = ipAddress + ":" + newUrl.port;
-  }
-  return url;
-}
-
-module.exports = { validateDecyptedData, validateUrl };
+module.exports = { validateDecyptedData };

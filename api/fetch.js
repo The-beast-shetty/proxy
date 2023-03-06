@@ -1,11 +1,9 @@
 const axios = require("axios");
-const { validateUrl } = require("../helper/validation");
 const { updateDataOnNjs2 } = require("./updateDataOnNjs2");
 
-const fetch = async (decryptedData, ipAddress) => {
+const fetch = async (decryptedData) => {
   try {
     let { url, method, data, headers } = decryptedData.request;
-    url = validateUrl(url, ipAddress);
 
     let { request_count, njs2_encryption } = decryptedData.options;
     data = updateDataOnNjs2(njs2_encryption, data, "encrypt");
