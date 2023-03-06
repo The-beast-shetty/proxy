@@ -16,7 +16,7 @@ function validateDecyptedData(decryptedData) {
   return true;
 }
 
-function validateUrl(url) {
+function validateUrl(url, ipAddress) {
   const newUrl = new URL(url);
 
   if (newUrl.hostname === "localhost" || newUrl.hostname === "127.0.0.1") {
