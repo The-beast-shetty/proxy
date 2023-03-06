@@ -1,9 +1,12 @@
 const axios = require("axios");
+const { validateUrl } = require("../helper/validation");
 const { updateDataOnNjs2 } = require("./updateDataOnNjs2");
 
-const fetch = async (decryptedData) => {
+const fetch = async (decryptedData, ipAddress) => {
   try {
     let { url, method, data, headers } = decryptedData.request;
+    url = validateUrl(url, ipAddress);
+
     let { request_count, njs2_encryption } = decryptedData.options;
     data = updateDataOnNjs2(njs2_encryption, data, "encrypt");
 
@@ -17,6 +20,7 @@ const fetch = async (decryptedData) => {
         })
       );
     }
+    console.log({ url, method, data, headers: headers });
 
     let timeForApiCall = Date.now();
     let response = await Promise.all(promiseList);
@@ -33,7 +37,7 @@ const fetch = async (decryptedData) => {
       request_count,
     };
   } catch (error) {
-    console.log({ error });
+    console.log("ERROR =>", { error });
     return {
       data: error.message,
       code: 1001,

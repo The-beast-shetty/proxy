@@ -9,10 +9,15 @@ app.use(cors({ origin: "https://beastman.web.app" }));
 // app.use(cors());
 
 app.get("/proxy", async (req, res) => {
-  const encryptedBeastmanData = req.headers.dps;
+  try {
+    const encryptedBeastmanData = req.headers.dps;
+    const ipAddress = req.socket.remoteAddress;
 
-  const response = await api(encryptedBeastmanData);
-  res.send(response);
+    const response = await api(encryptedBeastmanData,ipAddress);
+    res.send(response);
+  } catch (error) {
+    res.send({ code: 1001, data: error.message });
+  }
 });
 
 app.get("/", (req, res) => {

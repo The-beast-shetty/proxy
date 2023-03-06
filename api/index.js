@@ -2,7 +2,7 @@ const { decryptString, encryptString } = require("../helper/encryption");
 const { fetch } = require("./fetch");
 const { validateDecyptedData } = require("../helper/validation");
 
-module.exports = async (data) => {
+module.exports = async (data,ipAddress) => {
   const decryptedData = decryptString(data);
   const isValidData = validateDecyptedData(decryptedData);
   if (!isValidData)
@@ -10,6 +10,6 @@ module.exports = async (data) => {
       data: " Invalid data",
       code: "1001",
     };
-  const response = encryptString(await fetch(decryptedData));
+  const response = encryptString(await fetch(decryptedData, ipAddress ));
   return response;
 };
