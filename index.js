@@ -11,9 +11,14 @@ app.use(cors({ origin: "https://beastman.web.app" }));
 app.get("/proxy", async (req, res) => {
   try {
     const encryptedBeastmanData = req.headers.dps;
-    const ipAddress = req.socket.remoteAddress;
+    const ipAddress = req.connection.remoteAddress;
+    const ipv6Regx = /::ffff:(\d+\.\d+\.\d+\.\d+)/;
+    const ipv6Match = ipv6Regx.exec(ipAddress);
 
-    const response = await api(encryptedBeastmanData,ipAddress);
+    const ipv6Address = ipv6Match? ipv6Match[1]:null
+    console.log({ipAddress,ipv6Address});
+
+    const response = await api(encryptedBeastmanData,ipv6Address);
     res.send(response);
   } catch (error) {
     res.send({ code: 1001, data: error.message });
